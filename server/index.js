@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 // import postRoutes from "./routes/posts.js";
-// import userRoutes from "./routes/users.js";
+import userRoutes from "./routes/users.js";
 
 const app = express();
 dotenv.config();
@@ -16,7 +16,7 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.send("Hello to iTechno API");
 });
-
+app.use("/user", userRoutes);
 const PORT =  process.env.PORT || 5000;
 mongoose
   .connect(process.env.CONNECTION_URL, {

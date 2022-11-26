@@ -10,7 +10,11 @@ export default function Navbar() {
           <div className="flex items-center justify-between py-3 md:py-5 md:block">
             <a href="/">
               <div class="flex flex-row">
-              <img src={require("../../../src/images/manit_logo.png")} alt="logo" class="h-14 w-14"></img>
+                <img
+                  src={require("../../../src/images/manit_logo.png")}
+                  alt="logo"
+                  class="h-14 w-14"
+                ></img>
                 <h2 className="pl-3 text-2xl font-bold text-lg text-gray-700 flex items-center">
                   LOGO
                 </h2>
@@ -73,6 +77,12 @@ export default function Navbar() {
               <li className="text-gray-700 hover:text-indigo-200">
                 <a href="/about">About Us</a>
               </li>
+              <a
+                href="/create-event"
+                className="px-4 py-2 text-white bg-gray-600 rounded-md shadow hover:bg-gray-800"
+              >
+                Create Event
+              </a>
             </ul>
 
             <div className="mt-3 space-y-2 lg:hidden md:hidden">

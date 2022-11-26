@@ -1,4 +1,30 @@
+import { useState } from "react";
+
+const initialState = {
+  fullName: "",
+  email: "",
+  mobile: "",
+  userType: "",
+  scholarNumber: NaN,
+};
+
 export default function Register() {
+  const [form, setForm] = useState(initialState);
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(form);
+    // dispatch(signup(form, navigate));
+  };
+
+  const [user, setUser] = useState("outsider");
+  const handleRadioChange = () => {
+    setUser(user === "student" ? "outsider" : "student");
+    setForm({ ...form, userType: user });
+  };
   return (
     <div class="content-center mx-auto w-full md:w-2/4 my-10  ">
       <div class="w-full rounded overflow-hidden shadow-sm  mx-auto  ">
@@ -38,14 +64,17 @@ export default function Register() {
           <div class="container  mx-auto flex-1 flex flex-col items-center justify-center px-2">
             <div class="bg-white px-6 py-8  text-black w-full">
               <h2 class="mb-8 text-2xl text-center">Registration Form</h2>
+              <form onSubmit={handleSubmit}>
               <input
+                onChange={handleChange}
                 type="text"
                 class="block border border-grey-light w-full p-3 rounded mb-4"
-                name="fullname"
+                name="fullName"
                 placeholder="Full Name"
               />
 
               <input
+                onChange={handleChange}
                 type="text"
                 class="block border border-grey-light w-full p-3 rounded mb-4"
                 name="email"
@@ -53,17 +82,55 @@ export default function Register() {
               />
 
               <input
-                type="password"
+                onChange={handleChange}
+                type="tel"
                 class="block border border-grey-light w-full p-3 rounded mb-4"
-                name="password"
-                placeholder="Password"
+                name="mobile"
+                placeholder="Mobile Number (without +91)"
               />
-              <input
-                type="password"
-                class="block border border-grey-light w-full p-3 rounded mb-4"
-                name="confirm_password"
-                placeholder="Confirm Password"
-              />
+              <div class="mb-3">
+                <input
+                  onChange={handleRadioChange}
+                  checked={user === "outsider"}
+                  type="radio"
+                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label
+                  for="default-radio-1"
+                  class="mr-2 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  Manit Student
+                </label>
+                <input
+                  onChange={handleRadioChange}
+                  checked={user === "student"}
+                  type="radio"
+                  class="pb-10 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label
+                  for="default-radio-2"
+                  class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  Outsider
+                </label>
+              </div>
+              {user === "outsider" ? (
+                <input
+                  onChange={handleChange}
+                  type="number"
+                  class="block border border-grey-light w-full p-3 rounded mb-4"
+                  name="scholarNumber"
+                  placeholder="Scholar Number"
+                />
+              ) : (
+                <input
+                  onChange={handleChange}
+                  type="text"
+                  class="block border border-grey-light w-full p-3 rounded mb-4"
+                  name="address"
+                  placeholder="Current Address"
+                />
+              )}
 
               <button
                 type="submit"
@@ -71,6 +138,7 @@ export default function Register() {
               >
                 Register
               </button>
+              </form>
             </div>
           </div>
         </div>
