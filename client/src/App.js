@@ -11,6 +11,7 @@ import Register from "./components/clubs/Register";
 import Signup from "./components/signup/Signup";
 import Login from "./components/login/Login";
 import Create from "./components/evnts/Create";
+import Dashboard from "./components/dashboard/Dashboard";
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="/clubs/explore" exact element={<Explore />} />
           <Route path="/clubs/register" exact element={<Register />} />
           <Route path="/create-event" exact element={<Create />} />
+          <Route path="/dashboard" exact element={<Dashboard/>}/>
         </Routes>
         <Footer />
       </BrowserRouter>

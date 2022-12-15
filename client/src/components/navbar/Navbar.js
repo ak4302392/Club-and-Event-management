@@ -1,7 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate, useLocation } from "react-router-dom";
+import { LOGOUT, ORGANIZER } from "../../constants/actionTypes";
+import decode from "jwt-decode";
+import { getEvents } from "../../actions/events";
 
 export default function Navbar() {
   const [navbar, setNavbar] = useState(false);
+
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+
+  //  console.log(user.result._id);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const logout = () => {
+    dispatch({ type: LOGOUT });
+    navigate("/");
+    setUser(null);
+  };
+
+  useEffect(() => {
+    const token = user?.tocken;
+
+    if (token) {
+      const decodedToken = decode(token);
+
+      if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+    }
+    setUser(JSON.parse(localStorage.getItem("profile")));
+  }, [location]);
+
+  useEffect(() => {
+    dispatch(getEvents());
+  }, [dispatch]);
 
   return (
     <nav className="w-full text-lg  bg-white shadow ">
@@ -77,44 +109,60 @@ export default function Navbar() {
               <li className="text-gray-700 hover:text-indigo-200">
                 <a href="/about">About Us</a>
               </li>
-              <a
-                href="/create-event"
-                className="px-4 py-2 text-white bg-gray-600 rounded-md shadow hover:bg-gray-800"
-              >
-                Create Event
-              </a>
+              <li>
+                {user?.result.userType === ORGANIZER ? (
+                  <a
+                    href="/create-event"
+                    className="px-4 py-2 text-white bg-gray-600 rounded-md shadow hover:bg-gray-800"
+                  >
+                    Create Event
+                  </a>
+                ) : (
+                  <></>
+                )}
+              </li>
             </ul>
-
-            <div className="mt-3 space-y-2 lg:hidden md:hidden">
-              <a
-                href="/login"
-                className="inline-block w-full px-4 py-2 text-center text-white bg-gray-600 rounded-md shadow hover:bg-gray-800"
-              >
-                Sign in
-              </a>
-              <a
-                href="/signup"
-                className="inline-block w-full px-4 py-2 text-center text-gray-800 bg-white rounded-md shadow hover:bg-gray-100"
-              >
-                Sign up
-              </a>
-            </div>
           </div>
         </div>
-        <div className="hidden space-x-2 md:inline-block">
-          <a
-            href="/login"
-            className="px-4 py-2 text-white bg-gray-600 rounded-md shadow hover:bg-gray-800"
-          >
-            Sign in
-          </a>
-          <a
-            href="/signup"
-            className="px-4 py-2 text-gray-800 bg-white rounded-md shadow hover:bg-gray-100"
-          >
-            Sign up
-          </a>
-        </div>
+
+        {user ? (
+          <div className="hidden space-x-2 md:inline-block">
+            <div class="inline-flex overflow-hidden relative justify-center items-center w-10 h-10 bg-gray-100 rounded-full dark:bg-gray-600">
+              <span class="font-medium text-gray-600 dark:text-gray-300">
+                {user.result.name.charAt(0)}
+              </span>
+            </div>
+            <a
+              href="/dashboard"
+              // onClick={logout}
+              className="px-4 py-2 text-white bg-gray-600 rounded-md shadow hover:bg-gray-800"
+            >
+              Dashboard
+            </a>
+            <a
+              href="/"
+              onClick={logout}
+              className="px-4 py-2 text-white bg-gray-600 rounded-md shadow hover:bg-gray-800"
+            >
+              Logout
+            </a>
+          </div>
+        ) : (
+          <div className="hidden space-x-2 md:inline-block">
+            <a
+              href="/login"
+              className="px-4 py-2 text-white bg-gray-600 rounded-md shadow hover:bg-gray-800"
+            >
+              Sign in
+            </a>
+            <a
+              href="/signup"
+              className="px-4 py-2 text-gray-800 bg-white rounded-md shadow hover:bg-gray-100"
+            >
+              Sign up
+            </a>
+          </div>
+        )}
       </div>
     </nav>
   );

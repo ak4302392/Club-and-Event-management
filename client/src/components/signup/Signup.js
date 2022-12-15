@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signup } from "../../actions/auth";
+import { CUSTOMER, ORGANIZER } from "../../constants/actionTypes";
 const initialState = {
   fullName: "",
   email: "",
@@ -23,9 +24,10 @@ export default function Signup() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
   //to set the value of user type from the radio button
-  const [user, setUser] = useState("organizer");
-  const handleRadioChange = () => {
-    setUser(user === "customer" ? "organizer" : "customer");
+  const [user, setUser] = useState(ORGANIZER);
+  const handleRadioChange = (e) => {
+    // console.log(e.target.value)
+    setUser(e.target.value);
     setForm({ ...form, userType: user });
   };
 
@@ -53,7 +55,8 @@ export default function Signup() {
             <div class="mb-3">
               <input
                 onChange={handleRadioChange}
-                checked={user === "organizer"}
+                checked={user === ORGANIZER}
+                value={ORGANIZER}
                 type="radio"
                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
               />
@@ -65,8 +68,9 @@ export default function Signup() {
               </label>
               <input
                 onChange={handleRadioChange}
-                checked={user === "customer"}
+                checked={user === CUSTOMER}
                 type="radio"
+                value={CUSTOMER}
                 class="pb-10 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
               />
               <label
