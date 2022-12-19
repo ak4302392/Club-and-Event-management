@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { signup } from "../../actions/auth";
-import { CUSTOMER } from "../../constants/actionTypes";
+import { organizerSignup } from "../../actions/auth";
 const initialState = {
   fullName: "",
   email: "",
@@ -11,14 +10,14 @@ const initialState = {
   confirmPassword: "",
 };
 
-export default function Signup() {
+export default function OrganizerSignup() {
   const [form, setForm] = useState(initialState);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(signup(form, navigate));
+    dispatch(organizerSignup(form, navigate));
   };
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -27,6 +26,7 @@ export default function Signup() {
   return (
     <div class="bg-grey-lighter min-h-screen flex flex-col">
       <div class="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
+        <h1 class="mb-8 text-3xl text-center">Organizer Signup</h1>
         <div class="bg-white px-6 py-8 rounded shadow-md text-black w-full">
           <h1 class="mb-8 text-3xl text-center">Sign up</h1>
           <form onSubmit={handleSubmit}>
@@ -102,16 +102,6 @@ export default function Signup() {
               Privacy Policy
             </a>
           </div>
-        </div>
-
-        <div class="text-grey-dark mt-6">
-          If you are an organizer.?
-          <a
-            class="no-underline border-b border-blue text-blue-400"
-            href="/signup/organizer"
-          >
-            Signup here
-          </a>
         </div>
 
         <div class="text-grey-dark mt-6">

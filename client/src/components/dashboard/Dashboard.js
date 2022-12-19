@@ -10,13 +10,19 @@ export default function Dashboard() {
   const regEvents = events.filter((e) =>
     e.participants.map((p) => p.id === user.result._id)
   );
-  console.log(regEvents)
+  console.log(regEvents);
   return (
     <div className="md:px-40 md:py-3 sm:px-20 sm:py-2 px-10 py-1 ">
-      <h1 className="pb-5 text-2xl text-lg font-bold text-gray-700   ">
-        Your Events
-      </h1>
-      {user.result.userType === ORGANIZER ? <Event /> : <></>}
+      {user.result.userType === ORGANIZER ? (
+        <div>
+          <h1 className="pb-5 text-2xl text-lg font-bold text-gray-700   ">
+            Your Events
+          </h1>
+          <Event />
+        </div>
+      ) : (
+        <></>
+      )}
       <h1 className="pb-5 pt-5 text-2xl text-lg font-bold text-gray-700   ">
         Registered Events
       </h1>

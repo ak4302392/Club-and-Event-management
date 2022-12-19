@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { updateEvent } from "../../actions/events";
 
 const Card = (props) => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
@@ -8,6 +10,21 @@ const Card = (props) => {
       p.id === user.result._id ? props.event.participants.remove(p) : null
     );
   };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userId = user.result._id;
+  //handling the registering function
+  const handleRegister = () => {
+    const response = window.confirm(
+      "Are you sure you want to register to the event?"
+    );
+    if (response) {
+      props.event.participants.push(userId);
+      dispatch(updateEvent(props.event._id, props.event));
+      navigate("/dashboard");
+    }
+  };
+
   console.log(props.event);
   return (
     <div class="max-w-sm  bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
@@ -58,13 +75,12 @@ const Card = (props) => {
           </svg>
         </Link>
         {props.isEvent && !props.isOrganizer && !props.isReg ? (
-          <Link
-            to="/clubs/register"
-            state={{ event: props.event }}
+          <button
+            onClick={handleRegister}
             class="fixedt bottom-0 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-gray-600 rounded-md shadow hover:bg-gray-800 float-right"
           >
             Register
-          </Link>
+          </button>
         ) : props.isEvent ? (
           <Link
             onClick={handleDisenroll}

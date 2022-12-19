@@ -12,6 +12,10 @@ import Signup from "./components/signup/Signup";
 import Login from "./components/login/Login";
 import Create from "./components/evnts/Create";
 import Dashboard from "./components/dashboard/Dashboard";
+import OrganizerLogin from "./components/login/organizerLogin";
+import AdminLogin from "./components/login/adminLogin";
+import OrganizerSignup from "./components/signup/organizerSignup";
+import Admin from "./admin/Admin";
 
 const App = () => {
   return (
@@ -28,7 +32,12 @@ const App = () => {
           <Route path="/clubs/explore" exact element={<Explore />} />
           <Route path="/clubs/register" exact element={<Register />} />
           <Route path="/create-event" exact element={<Create />} />
-          <Route path="/dashboard" exact element={<Dashboard/>}/>
+          <Route path="/dashboard" exact element={<Dashboard />} />
+          <Route path="/login/organizer" exact element={<OrganizerLogin />} />
+          <Route path="/login/admin" exact element={<AdminLogin/>}/>
+          <Route path="/signup/organizer" exact element={<OrganizerSignup/>}/>
+          <Route path="/admin" exact element={<Admin/>}/>
+
         </Routes>
         <Footer />
       </BrowserRouter>
